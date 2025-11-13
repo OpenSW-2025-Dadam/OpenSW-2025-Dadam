@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>Dadam</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+
+</head>
+<body>
+<div class="app">
+    <!-- 상단 -->
+    <div class="top-bar">
+        <div class="logo">
+            <div class="logo-box">🍵</div>
+            <div class="logo-text">다담</div>
+        </div>
+        <div class="top-icons">
+            <div class="icon-pill">🍀</div>
+            <div class="icon-pill">👤</div>
+        </div>
+    </div>
+
+    <!-- 본문 레이아웃 -->
+    <div class="layout">
+        <!-- 왼쪽 -->
+        <section class="panel">
+            <div class="panel-section">
+                <div class="panel-title">
+                    <span class="icon">😊</span> <span id="familyName"></span>
+                </div>
+
+                <div class="family-list">
+                    <div class="family-item">
+                        <div class="family-icon">😍</div>
+                        <div id="user1"></div>
+                    </div>
+                    <div class="family-item">
+                        <div class="family-icon">🙂</div>
+                        <div id="user2"></div>
+                    </div>
+                    <div class="family-item">
+                        <div class="family-icon">😴</div>
+                        <div id="user3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <div class="panel-title" style="margin-top:4px">신조어 퀴즈</div>
+                <div class="word-quiz">
+                    <div class = "quiz-header">
+                        밤티<br>
+                        의 뜻은 무엇일까요?
+                    </div>
+                    <div class="quiz-option">폭탄</div>
+                    <div class="quiz-option">갈색 옷</div>
+                    <div class="quiz-option">못생김</div>
+                    <div class="quiz-option">밤맛 차</div>
+                </div>
+            </div>
+
+
+            <div class="panel-section">
+                <div class="panel-title" style="margin-top:4px">밸런스 게임</div>
+                <div class="bal-game">
+                    <div class="bal-option">동아리 모임가기</div>
+                    <div class="bal-option">100분 뽀모도로</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 가운데 -->
+        <section class="panel">
+            <div class="panel-title">
+                <span class="icon">💡</span> 오늘의 질문
+            </div>
+            <div class="question-box">
+                <div class="question-head">가장 좋아하는 음식이 무엇인가요?</div>
+                <div>질문이 마음에 들었나요? O/X</div>
+                <textarea id="answer" maxlength="100" placeholder="답변을 입력해주세요"></textarea>
+                <div class="q-bottom">
+                    <div id="charCount">0 / 100</div>
+                    <button class="btn-submit" id="saveBtn">답변하기</button>
+                </div>
+            </div>
+
+            <div class="comment-list" id="commentList">
+                <div class="comment-item">
+                    <div>
+                        <strong>수진</strong> 나희가 먹고싶은거는 다 좋아
+                        <div class="comment-meta">2분 전</div>
+                    </div>
+                    <div>💬</div>
+                </div>
+                <div class="comment-item">
+                    <div>
+                        <strong>민규</strong> 나는 햄부기
+                        <div class="comment-meta">10분 전</div>
+                    </div>
+                    <div>💬</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 오른쪽 -->
+        <section class="panel">
+            <div class="panel-title">2025년 11월</div>
+            <div class="calendar-header">
+                <div>캘린더</div>
+                <button class="quick-btn">약속 만들기 📝</button>
+            </div>
+            <div class="calendar-grid" id="calendar">
+                <div class="day-label">일</div>
+                <div class="day-label">월</div>
+                <div class="day-label">화</div>
+                <div class="day-label">수</div>
+                <div class="day-label">목</div>
+                <div class="day-label">금</div>
+                <div class="day-label">토</div>
+            </div>
+
+            <div class="event-list">
+                <div class="event-title">Upcoming Event</div>
+                <div class="event-item">
+                    <div>
+                        수진이 생일
+                        <div class="date">11월 3일 월요일</div>
+                    </div>
+                    <div>🎂</div>
+                </div>
+                <div class="event-item">
+                    <div>
+                        나희 생일
+                        <div class="date">11월 6일 목요일</div>
+                    </div>
+                    <div>🎂</div>
+                </div>
+                <div class="event-item">
+                    <div>
+                        이마트 나들이
+                        <div class="date">11월 22일 토요일</div>
+                    </div>
+                    <div>🍀</div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script src="./js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+* {
+     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+@font-face {
+    font-family: 'IsYun';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+textarea,
+button {
+  font-family: 'IsYun', sans-serif !important;
+}
+
+
+body {
+    font-family: 'IsYun';
+    background-color: #faf6ec;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.app {
+  width: 1200px;
+  min-height: 640px;
+  background-color: #fffdf5;
+  border: 2px solid #e3d9b8;
+  border-radius: 20px;
+  padding: 18px 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-box {
+  width: 32px;
+  height: 24px;
+  border-radius: 8px;
+  background-color: #b9e783;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 20px;
+  color: #4a5a25;
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: #4a5a25;
+}
+
+.top-icons {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 20px;
+  color: #8b8b7a;
+}
+
+.icon-pill {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid #b9e783;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 3.3fr 4.2fr 3.5fr;
+  gap: 14px;
+  flex: 1;
+}
+/* --- */
+.panel {
+  border-radius: 14px;
+  border: 1.5px solid #efe4c6;
+  background-color: #fffdf7;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden; /* 내용이 밖으로 안 넘치게 */
+}
+
+/* 구분선 */
+.panel-section {
+  padding: 10px 0;
+  border-bottom: 1px solid #e8dfc0;
+}
+
+/* 마지막 구역은 선 없게 */
+.panel-section:last-child {
+  border-bottom: none;
+}
+
+.panel-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #5b7149;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+/*familylist*/
+.family-list {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.family-item {
+  flex: 1;
+  padding: 6px 4px;
+  border-radius: 10px;
+  border: 1.5px solid #f0d7c3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  cursor: pointer;
+  background-color: #fffaf3;
+}
+
+.family-icon {
+  font-size: 18px;
+}
+/* ----- */
+.quiz-question{
+  font-weight: 600;
+  color: #5c4f34;
+  line-height: 1.2;
+  text-align: center;
+  margin-bottom: 6px;
+}
+.word-quiz {
+  display: flex;
+  flex-direction: column; /* 세로로 나열 */
+  gap: 6px;
+  margin-top: 6px;
+  align-items: flex-start; /* 왼쪽 정렬 (중앙이 싫으면) */
+}
+
+.quiz-option {
+  width: 100%;
+  text-align: center;
+  padding: 8px 6px;
+  font-size: 12px;
+  border-radius: 9px;
+  border: 1px dashed #e1cfac;
+  color: #7b6a47;
+  cursor: pointer;
+  background-color: #fffaf3;
+}
+
+/* ---- */
+.bal-game {
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.bal-option {
+  flex: 1;
+  text-align: center;
+  padding: 30px 30px;
+  font-size: 15px;
+  border-radius: 9px;
+  border: 1px dashed #e1cfac;
+  color: #7b6a47;
+  cursor: pointer;
+}
+/* ---- */
+.question-box {
+  margin-top: 2px;
+  padding: 8px;
+  border-radius: 12px;
+  border: 1.5px solid #e9dcc0;
+  background-color: #fffdf7;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 20px;
+  color: #6d6044;
+}
+
+.question-head {
+  text-align: center; /* 가운데 정렬 */
+  font-weight: 600;
+  color: #5c4f34;
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+
+textarea {
+  width: 100%;
+  resize: none;
+  border-radius: 10px;
+  border: 1px solid #e6d5b5;
+  padding: 6px;
+  font-size: 11px;
+  outline: none;
+  background-color: #fffcf5;
+}
+
+.q-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #9a8e71;
+}
+
+.btn-submit {
+  padding: 4px 12px;
+  border-radius: 10px;
+  border: none;
+  background-color: #b9e783;
+  color: #44501d;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* 답변 목록 */
+.comment-list {
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 10px;
+}
+
+.comment-item {
+  padding: 5px 6px;
+  border-radius: 10px;
+  background-color: #f7f4e6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+}
+
+.comment-meta {
+  font-size: 8px;
+  color: #a0957b;
+}
+
+/* 캘린더 */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #756749;
+  margin-top: 2px;
+}
+
+.calendar-grid {
+  margin-top: 4px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  font-size: 9px;
+}
+
+.day-label {
+  text-align: center;
+  color: #b0a48a;
+  font-weight: 600;
+}
+
+.day-cell {
+  width: 100%;
+  padding: 4px 0;
+  text-align: center;
+  border-radius: 6px;
+  background-color: #fffaf0;
+  border: 1px solid #f1e4ca;
+  cursor: default;
+}
+
+.day-cell.active {
+  background-color: #b9e783;
+  border-color: #9ad45d;
+  font-weight: 700;
+  color: #4a5a25;
+}
+
+.day-cell.light {
+  background-color: #f9f3e2;
+}
+
+.quick-btn {
+  padding: 4px 8px;
+  border-radius: 10px;
+  border: 1px solid #b9e783;
+  background-color: #f7ffe9;
+  font-size: 9px;
+  color: #5e6d2a;
+  cursor: pointer;
+}
+
+.event-list {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 9px;
+}
+
+.event-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #6d5f3f;
+}
+
+.event-item {
+  padding: 5px 6px;
+  border-radius: 9px;
+  background-color: #e9ffd7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 6px;
+  color: #506122;
+}
+
+.event-item span.date {
+  font-size: 8px;
+  color: #7d8a4b;
+}
