@@ -1,18 +1,18 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.5.7'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.3.5'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 description = 'dadam-backend'
 
-java {
+/*java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
-}
+}*/
 
 configurations {
     compileOnly {
@@ -31,7 +31,8 @@ dependencies {
     // Web + JPA + MySQL
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    runtimeOnly 'com.mysql:mysql-connector-j'
+    implementation 'com.mysql:mysql-connector-j:8.3.0'  // MySQL 공식 권장 버전
+
 
     // Security + JWT
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -43,7 +44,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.8'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
