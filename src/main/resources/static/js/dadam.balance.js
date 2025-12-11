@@ -222,27 +222,30 @@ function setBalanceGameFromSummary(summary) {
 /* 서버에서 오늘의 밸런스 게임 + 투표 현황 가져오기 */
 async function fetchBalanceGameFromServer() {
     try {
+        const token = getAuthToken();
+
         const res = await fetch(BALANCE_TODAY_API_URL, {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`,  // 추가됨
+            },
         });
+
         if (!res.ok) throw new Error("Failed to fetch balance game");
 
         const raw = await res.json();
         console.log("[BALANCE] /today response:", raw);
+
         const summary = normalizeBalanceSummary(raw);
         if (!summary) throw new Error("Invalid balance summary data");
 
         setBalanceGameFromSummary(summary);
 
-        // addNotification({
-        //     type: "info",
-        //     message: "오늘의 밸런스 게임이 준비되었어요.",
-        // });
     } catch (err) {
         console.error("[BALANCE] error:", err);
 
-        // 서버 장애 시 fallback 문제 사용 (이 경우는 공유 X, 내 브라우저 한정)
+        // fallback
         const fallback =
             BALANCE_POOL[Math.floor(Math.random() * BALANCE_POOL.length)];
 
@@ -255,6 +258,7 @@ async function fetchBalanceGameFromServer() {
             votesA: [],
             votesB: [],
         };
+
         setBalanceGameFromSummary(summary);
 
         addNotification({
@@ -286,7 +290,7 @@ async function handleBalanceChoice(choice) {
             message: "로그인 후에만 밸런스 게임에 참여할 수 있어요.",
         });
         if (typeof openModal === "function") {
-            openModal("modal-auth"); // 로그인 모달이 있다면 열기
+            openModal("modal-login"); // 로그인 모달이 있다면 열기
         }
         return;
     }

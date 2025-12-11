@@ -22,6 +22,11 @@ const signupNameInput = document.getElementById("signup-name");
 const signupEmailInput = document.getElementById("signup-email");
 const signupPasswordInput = document.getElementById("signup-password");
 
+const introLoginBtn = document.getElementById("intro-login-btn");
+const introSignupBtn = document.getElementById("intro-signup-btn");
+const loginCancelBtn = document.getElementById("login-cancel-btn");
+const signupCancelBtn = document.getElementById("signup-cancel-btn");
+
 // 로그인/회원가입 패널 이동 링크
 const goSignupLink = document.getElementById("go-signup-link");
 const goLoginLink = document.getElementById("go-login-link");
@@ -75,6 +80,35 @@ goLoginLink?.addEventListener("click", () => {
     setAuthMode("login");
 });
 
+introLoginBtn?.addEventListener("click", () => {
+    if (typeof closeModal === "function") {
+        closeModal("modal-intro");
+    }
+    openModal("modal-login");
+});
+
+introSignupBtn?.addEventListener("click", () => {
+    if (typeof closeModal === "function") {
+        closeModal("modal-intro");
+    }
+    setAuthMode("signup");
+    openModal("modal-signup");
+});
+
+loginCancelBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (typeof showIntroModal === "function") {
+        showIntroModal();
+    }
+});
+
+signupCancelBtn?.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (typeof showIntroModal === "function") {
+        showIntroModal();
+    }
+});
+
 /* -----------------------------------------------------
    공통: 로그인 성공/회원가입 성공 후 처리
 ----------------------------------------------------- */
@@ -104,7 +138,8 @@ function handleAuthSuccess(data, message) {
 
         // 4) 로그인 모달 닫기
         if (typeof closeModal === "function") {
-            closeModal("modal-auth");
+            closeModal("modal-login");
+            closeModal("modal-signup");
         }
 
         // 4-1) ✅ 로그인/회원가입 성공 후 퀴즈 상태 리셋
@@ -118,6 +153,10 @@ function handleAuthSuccess(data, message) {
                 type: "info",
                 message: message || "로그인에 성공했어요.",
             });
+        }
+
+        if (typeof fetchAndRenderFamilyMembers === "function") {
+            fetchAndRenderFamilyMembers();
         }
     } catch (err) {
         console.error("[AUTH] handleAuthSuccess error:", err);
@@ -149,16 +188,17 @@ loginForm?.addEventListener("submit", async (e) => {
         });
 
         if (!res.ok) {
-            const text = await res.text().catch(() => "");
-            console.error("[AUTH] login failed:", res.status, text);
+                    const text = await res.text().catch(() => "");
+                    console.error("[AUTH] login failed:", res.status, text);
 
-            if (res.status === 401) {
-                alert("이메일 또는 비밀번호가 올바르지 않습니다.");
-            } else {
-                alert("로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-            }
-            return;
-        }
+                    // 💡 401 뿐만 아니라 400일 때도 자격 증명 오류 메시지를 출력하도록 수정
+                    if (res.status === 401 || res.status === 400) {
+                        alert("이메일 또는 비밀번호가 올바르지 않습니다.");
+                    } else {
+                        alert("로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+                    }
+                    return;
+                }
 
         const data = await res.json();
         handleAuthSuccess(data, "로그인에 성공했어요.");
