@@ -622,9 +622,15 @@ async function handleCommentSubmit(e) {
         renderAnswerListFromData(todaysAnswersCache);
     }
 
+    const voterName =
+        (typeof currentUser !== "undefined" &&
+            currentUser &&
+            currentUser.name) ||
+        "나";
+
     addNotification?.({
         type: "info",
-        message: "가족의 답변에 댓글을 남겼어요.",
+        message: "${voterName}님이 가족의 답변에 댓글을 남겼어요.",
     });
 }
 

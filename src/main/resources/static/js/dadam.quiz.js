@@ -321,12 +321,12 @@ async function fetchTodayQuiz() {
             updateQuizVisuals();
         }
 
-        if (typeof addNotification === "function") {
-            addNotification({
-                type: "info",
-                message: "오늘의 신조어 퀴즈가 준비되었어요.",
-            });
-        }
+        // if (typeof addNotification === "function") {
+        //     addNotification({
+        //         type: "info",
+        //         message: "오늘의 신조어 퀴즈가 준비되었어요.",
+        //     });
+        // }
     } catch (err) {
         console.error("[QUIZ] error:", err);
         const msg = String(err.message || "");
@@ -361,9 +361,15 @@ async function sendQuizVote(choiceIndex) {
         updateQuizVisuals();
 
         if (typeof addNotification === "function") {
+            const voterName =
+                (typeof currentUser !== "undefined" &&
+                    currentUser &&
+                    currentUser.name) ||
+                "나";
+
             addNotification({
                 type: "info",
-                message: `신조어 퀴즈에서 ${selectedIndex + 1}번을 선택했어요.`,
+                message: `${voterName}님이 신조어 퀴즈에서 ${selectedIndex + 1}번을 선택했어요.`,
             });
         }
     } catch (err) {
@@ -388,26 +394,50 @@ async function sendQuizVote(choiceIndex) {
 }
 
 /* ---------------- 초기화 & 이벤트 ---------------- */
-function initQuiz() {
+
+/**
+ * 🔄 현재 로그인된 계정 기준으로 퀴즈 상태 리셋 + 재조회
+ * - 계정 변경(로그인/로그아웃/회원가입 후) 시 이 함수를 호출해야
+ *   이전 계정의 myChoiceIndex 때문에 "이미 참여"라고 뜨는 문제를 방지할 수 있음.
+ */
+function resetQuizForCurrentUser() {
+    // in-memory 상태 초기화
+    currentQuiz   = null;
+    selectedIndex = null;
+    revealed      = false;
+
     if (!quizContainer) return;
+
+    const token = typeof getAuthToken === "function" ? getAuthToken() : null;
+
+    // 토큰이 없으면 로그인 안내만 표시
+    if (!token) {
+        if (quizQuestionEl) {
+            quizQuestionEl.textContent = "로그인이 필요해요. 먼저 로그인해 주세요.";
+        }
+        if (quizCheckBtn) {
+            quizCheckBtn.style.display = "none";
+        }
+        return;
+    }
 
     if (quizCheckBtn) {
         quizCheckBtn.style.display = "none";
     }
 
-    // 토큰이 없으면 굳이 요청 안 보내고 안내만
-    const token = typeof getAuthToken === "function" ? getAuthToken() : null;
-    if (!token) {
-        if (quizQuestionEl) {
-            quizQuestionEl.textContent = "로그인이 필요해요. 먼저 로그인해 주세요.";
-        }
-        return;
-    }
-
+    // 현재 토큰(=현재 계정) 기준으로 오늘 퀴즈 다시 불러오기
     fetchTodayQuiz();
 }
 
-/* 보기 버튼 클릭 */
+// 다른 스크립트에서 호출 가능하도록 전역에 노출
+window.resetQuizForCurrentUser = resetQuizForCurrentUser;
+
+function initQuiz() {
+    if (!quizContainer) return;
+    // 최초 진입 시도에도 현재 토큰 기준으로 초기화/조회
+    resetQuizForCurrentUser();
+}
+
 /* 보기 버튼 클릭 */
 document.addEventListener("click", (e) => {
     if (!quizContainer || !currentQuiz) return;
@@ -436,8 +466,6 @@ document.addEventListener("click", (e) => {
     updateQuizVisuals();
 });
 
-
-/* "정답 확인" 버튼 */
 /* "정답 확인" 버튼 */
 quizCheckBtn?.addEventListener("click", async () => {
     if (!currentQuiz || selectedIndex === null || revealed) return;
@@ -448,11 +476,6 @@ quizCheckBtn?.addEventListener("click", async () => {
         currentQuiz.myChoiceIndex === undefined
     ) {
         await sendQuizVote(selectedIndex);
-        // sendQuizVote 안에서:
-        //  - currentQuiz 갱신
-        //  - selectedIndex = 서버 myChoiceIndex
-        //  - revealed = true
-        //  - 정답/퍼센트/아바타 다시 렌더링
         return;
     }
 
@@ -461,7 +484,6 @@ quizCheckBtn?.addEventListener("click", async () => {
     updateQuizFeedback();
     updateQuizVisuals();
 });
-
 
 /* DOM 로드 시 초기화 */
 document.addEventListener("DOMContentLoaded", () => {

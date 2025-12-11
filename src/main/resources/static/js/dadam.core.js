@@ -41,7 +41,6 @@ async function authPost(path, payload) {
     return res.json();
 }
 
-
 /* -----------------------------------------------------
    📌 공통 상수 & 로컬 저장 키
 ----------------------------------------------------- */
@@ -418,16 +417,16 @@ $("#open-profile")?.addEventListener("click", () => {
     $("#profile-name-input").value = currentUser.name || "";
     $("#profile-role-input").value = currentUser.role || "child";
 
-    const avatarPreview = $("#profile-avatar-preview");
-    if (avatarPreview) {
+    const avatarWrapper = $("#profile-avatar-preview");
+    if (avatarWrapper) {
         const label = getAvatarLabel(currentUser.name || "나");
-        avatarPreview.innerHTML = `<span class="avatar-initial">${label}</span>`;
+        avatarWrapper.innerHTML = `<span class="avatar-initial">${label}</span>`;
         if (currentUser.avatar) {
-            avatarPreview.style.backgroundImage = `url(${currentUser.avatar})`;
-            avatarPreview.style.backgroundSize = "cover";
-            avatarPreview.style.backgroundPosition = "center";
+            avatarWrapper.style.backgroundImage = `url(${currentUser.avatar})`;
+            avatarWrapper.style.backgroundSize = "cover";
+            avatarWrapper.style.backgroundPosition = "center";
         } else {
-            avatarPreview.style.backgroundImage = "none";
+            avatarWrapper.style.backgroundImage = "none";
         }
     }
 
@@ -468,6 +467,11 @@ document.addEventListener("DOMContentLoaded", () => {
             type: "info",
             message: "로그아웃되었어요.",
         });
+
+        // ✅ 로그아웃 후 퀴즈 상태도 초기화 (다음 로그인 계정 기준으로 다시 로드)
+        if (typeof window.resetQuizForCurrentUser === "function") {
+            window.resetQuizForCurrentUser();
+        }
     });
 });
 
@@ -550,6 +554,11 @@ document.addEventListener("DOMContentLoaded", () => {
             if (typeof fetchAndRenderFamilyMembers === "function") {
                 fetchAndRenderFamilyMembers();
             }
+
+            // ✅ 로그인 성공 후 퀴즈 상태 리셋 & 현재 계정 기준으로 다시 로드
+            if (typeof window.resetQuizForCurrentUser === "function") {
+                window.resetQuizForCurrentUser();
+            }
         } catch (err) {
             console.error("[LOGIN] failed:", err);
         }
@@ -595,6 +604,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (typeof fetchAndRenderFamilyMembers === "function") {
                 fetchAndRenderFamilyMembers();
+            }
+
+            // ✅ 회원가입 후 로그인 상태로 들어왔으니 퀴즈도 현재 계정 기준으로 초기화
+            if (typeof window.resetQuizForCurrentUser === "function") {
+                window.resetQuizForCurrentUser();
             }
         } catch (err) {
             console.error("[SIGNUP] failed:", err);

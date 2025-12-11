@@ -89,6 +89,15 @@ const balanceQuestionEl = document.getElementById("balance-question");
 const balanceOptions = document.querySelectorAll(".balance-option");
 const regenBalanceBtn = document.getElementById("regen-balance");
 
+/* 로그인 JWT 토큰 가져오기 (localStorage 기준) */
+function getAuthToken() {
+    try {
+        return localStorage.getItem("dadam_auth_token");
+    } catch (e) {
+        return null;
+    }
+}
+
 /* 백엔드 응답 DTO (BalanceGameTodayResponse)
    {
      "id": 1,
@@ -226,10 +235,10 @@ async function fetchBalanceGameFromServer() {
 
         setBalanceGameFromSummary(summary);
 
-        addNotification({
-            type: "info",
-            message: "오늘의 밸런스 게임이 준비되었어요.",
-        });
+        // addNotification({
+        //     type: "info",
+        //     message: "오늘의 밸런스 게임이 준비되었어요.",
+        // });
     } catch (err) {
         console.error("[BALANCE] error:", err);
 
@@ -269,10 +278,27 @@ async function handleBalanceChoice(choice) {
     const currentGameId = balanceContainer.dataset.gameId;
     if (!currentGameId) return;
 
+    // ✅ 로그인 토큰 확인
+    const token = getAuthToken();
+    if (!token) {
+        addNotification({
+            type: "error",
+            message: "로그인 후에만 밸런스 게임에 참여할 수 있어요.",
+        });
+        if (typeof openModal === "function") {
+            openModal("modal-auth"); // 로그인 모달이 있다면 열기
+        }
+        return;
+    }
+
     try {
         const res = await fetch(BALANCE_VOTE_API_URL, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                // ✅ JWT 토큰을 Authorization 헤더로 전송
+                "Authorization": `Bearer ${token}`,
+            },
             body: JSON.stringify({ choice }),
         });
         if (!res.ok) throw new Error("Failed to vote balance game");
@@ -306,10 +332,15 @@ async function handleBalanceChoice(choice) {
         setBalanceGameFromSummary(summary);
 
         const text = choice === "A" ? summary.A : summary.B;
+        const voterName =
+            (typeof currentUser !== "undefined" &&
+                currentUser &&
+                currentUser.name) ||
+            "나";
 
         addNotification({
             type: "info",
-            message: `밸런스 게임에서 "${text}"를 선택했어요.`,
+            message: `${voterName}님이 밸런스 게임에서 "${text}"를 선택했어요.`,
         });
     } catch (err) {
         console.error("[BALANCE] vote error:", err);

@@ -75,7 +75,6 @@ goLoginLink?.addEventListener("click", () => {
     setAuthMode("login");
 });
 
-
 /* -----------------------------------------------------
    공통: 로그인 성공/회원가입 성공 후 처리
 ----------------------------------------------------- */
@@ -83,10 +82,13 @@ function handleAuthSuccess(data, message) {
     try {
         // data 예시: { token: "...", user: { ... } }
 
-        // 1) 토큰 저장 → isLoggedIn() 이 true가 되게
-        if (data.token && typeof setAuthToken === "function") {
-            setAuthToken(data.token);
-        } else if (data.token) {
+        // 1) 토큰 저장 → 항상 localStorage에도 저장
+        if (data.token) {
+            // 다른 곳에서 쓰는 setAuthToken 이 있으면 그대로 호출
+            if (typeof setAuthToken === "function") {
+                setAuthToken(data.token);
+            }
+            // ✅ JWT 토큰을 항상 localStorage에 저장
             localStorage.setItem("dadam_auth_token", data.token);
         }
 
@@ -105,6 +107,11 @@ function handleAuthSuccess(data, message) {
             closeModal("modal-auth");
         }
 
+        // 4-1) ✅ 로그인/회원가입 성공 후 퀴즈 상태 리셋
+        if (typeof window.resetQuizForCurrentUser === "function") {
+            window.resetQuizForCurrentUser();
+        }
+
         // 5) 알림 추가 (선택)
         if (typeof addNotification === "function") {
             addNotification({
@@ -116,7 +123,6 @@ function handleAuthSuccess(data, message) {
         console.error("[AUTH] handleAuthSuccess error:", err);
     }
 }
-
 
 /* -----------------------------------------------------
    로그인 폼 제출
@@ -162,7 +168,6 @@ loginForm?.addEventListener("submit", async (e) => {
     }
 });
 
-
 /* -----------------------------------------------------
    회원가입 폼 제출
    POST /api/v1/auth/signup  (API_BASE 사용)
@@ -203,13 +208,15 @@ signupForm?.addEventListener("submit", async (e) => {
         const data = await res.json();
 
         // 회원가입 후 바로 로그인 상태로 만들고 싶다면 그대로 재사용
-        handleAuthSuccess(data, "회원가입이 완료되었습니다. 로그인 상태로 전환합니다.");
+        handleAuthSuccess(
+            data,
+            "회원가입이 완료되었습니다. 로그인 상태로 전환합니다."
+        );
     } catch (err) {
         console.error("[AUTH] signup exception:", err);
         alert("회원가입 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
     }
 });
-
 
 /* -----------------------------------------------------
    초기 모드 설정 (기본: 로그인)

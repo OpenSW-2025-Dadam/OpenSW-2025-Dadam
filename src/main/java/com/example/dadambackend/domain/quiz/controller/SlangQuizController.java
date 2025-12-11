@@ -6,6 +6,9 @@ import com.example.dadambackend.domain.quiz.service.SlangQuizService;
 import com.example.dadambackend.global.exception.BusinessException;
 import com.example.dadambackend.global.exception.ErrorCode;
 import com.example.dadambackend.security.JwtTokenProvider;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/quiz")
 @RequiredArgsConstructor
+@Tag(name = "슬랭 퀴즈", description = "오늘의 슬랭 퀴즈 API")
+@SecurityRequirement(name = "Authorization")   // ✅ 프로필과 동일하게 JWT 필요 표시
 public class SlangQuizController {
 
     private final SlangQuizService slangQuizService;
@@ -23,10 +28,8 @@ public class SlangQuizController {
      *  - 로그인 했으면 내 선택 인덱스 포함
      */
     @GetMapping("/today")
-    public ResponseEntity<SlangQuizTodayResponse> getTodayQuiz(
-            @RequestHeader(value = "Authorization", required = false) String authHeader
-    ) {
-        Long userId = extractUserIdOrNull(authHeader);
+    public ResponseEntity<SlangQuizTodayResponse> getTodayQuiz(HttpServletRequest request) {
+        Long userId = extractUserIdOrNull(request);
         SlangQuizTodayResponse quiz = slangQuizService.getOrCreateTodayQuiz(userId);
         return ResponseEntity.ok(quiz);
     }
@@ -36,18 +39,19 @@ public class SlangQuizController {
      */
     @PostMapping("/today/vote")
     public ResponseEntity<SlangQuizTodayResponse> voteToday(
-            @RequestHeader("Authorization") String authHeader,
-            @RequestBody SlangQuizVoteRequest request
+            HttpServletRequest request,
+            @RequestBody SlangQuizVoteRequest voteRequest
     ) {
-        Long userId = extractUserIdOrThrow(authHeader);
+        Long userId = extractUserIdOrThrow(request);
         SlangQuizTodayResponse quiz =
-                slangQuizService.voteToday(userId, request.getChoiceIndex());
+                slangQuizService.voteToday(userId, voteRequest.getChoiceIndex());
         return ResponseEntity.ok(quiz);
     }
 
     /* =================== 헬퍼 =================== */
 
-    private Long extractUserIdOrNull(String authHeader) {
+    private Long extractUserIdOrNull(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return null;
         }
@@ -58,7 +62,8 @@ public class SlangQuizController {
         return jwtTokenProvider.getUserIdFromToken(token);
     }
 
-    private Long extractUserIdOrThrow(String authHeader) {
+    private Long extractUserIdOrThrow(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new BusinessException(ErrorCode.UNAUTHORIZED);
         }
