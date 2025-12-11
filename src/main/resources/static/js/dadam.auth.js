@@ -149,16 +149,17 @@ loginForm?.addEventListener("submit", async (e) => {
         });
 
         if (!res.ok) {
-            const text = await res.text().catch(() => "");
-            console.error("[AUTH] login failed:", res.status, text);
+                    const text = await res.text().catch(() => "");
+                    console.error("[AUTH] login failed:", res.status, text);
 
-            if (res.status === 401) {
-                alert("이메일 또는 비밀번호가 올바르지 않습니다.");
-            } else {
-                alert("로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
-            }
-            return;
-        }
+                    // 💡 401 뿐만 아니라 400일 때도 자격 증명 오류 메시지를 출력하도록 수정
+                    if (res.status === 401 || res.status === 400) {
+                        alert("이메일 또는 비밀번호가 올바르지 않습니다.");
+                    } else {
+                        alert("로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+                    }
+                    return;
+                }
 
         const data = await res.json();
         handleAuthSuccess(data, "로그인에 성공했어요.");
