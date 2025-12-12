@@ -230,10 +230,24 @@ function loadUserProfile() {
 
 let currentUser = loadUserProfile();
 
-function setCurrentUser(profile) {
+function setCurrentUser(profile = {}) {
+    const resolvedName = (() => {
+        const incoming = profile.name;
+        if (typeof incoming === "string" && incoming.trim().length > 0) {
+            return incoming;
+        }
+
+        const existing = currentUser.name;
+        if (typeof existing === "string" && existing.trim().length > 0) {
+            return existing;
+        }
+
+        return "우리 가족";
+    })();
+
     currentUser = {
         id: profile.id ?? currentUser.id ?? null,
-        name: profile.name ?? currentUser.name ?? "우리 가족",
+        name: resolvedName,
         avatarUrl:
             profile.avatarUrl ??
             profile.avatar ??
