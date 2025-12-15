@@ -1,7 +1,7 @@
 /* =========================================
    layout.css
    Header / Main Layout / Sidebar
-   화이트 + 말차 포인트 레이아웃
+   화이트 + 네이비 포인트 레이아웃
 ========================================= */
 
 /* ---------- App Wrapper ---------- */
@@ -51,7 +51,7 @@
             #ffffff,
             var(--fh-color-primary-soft)
     );
-    border: 1px solid rgba(107, 170, 117, 0.3);
+    border: 1px solid rgba(85, 102, 255, 0.3);
     box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
     transition: transform 0.18s ease, box-shadow 0.18s ease,
     background 0.18s ease;
@@ -105,7 +105,7 @@
 .nav-pill:hover {
     background: var(--fh-color-primary-soft);
     color: var(--fh-color-primary);
-    border-color: rgba(107, 170, 117, 0.4);
+    border-color: rgba(85, 102, 255, 0.4);
 }
 
 .nav-pill.is-active {
@@ -152,7 +152,7 @@
 }
 
 .avatar-chip:hover {
-    border-color: rgba(107, 170, 117, 0.7);
+    border-color: rgba(85, 102, 255, 0.7);
     box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
     transform: translateY(-1px);
 }

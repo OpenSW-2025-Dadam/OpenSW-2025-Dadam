@@ -73,23 +73,23 @@
     gap: 6px;
 }
 
-/* 말차 메인 버튼 */
+/* 네이비 메인 버튼 */
 
 .btn-primary {
-    background: var(--fh-color-primary);
+    background: linear-gradient(135deg, #5566ff, #4a5ae6);
     color: #ffffff;
-    box-shadow: 0 6px 16px rgba(95, 143, 101, 0.32);
+    box-shadow: 0 6px 16px rgba(85, 102, 255, 0.3);
 }
 
 .btn-primary:hover {
-    background: #527b58;
-    box-shadow: 0 8px 22px rgba(95, 143, 101, 0.38);
+    background: linear-gradient(135deg, #4f60f4, #4352d8);
+    box-shadow: 0 8px 22px rgba(85, 102, 255, 0.32);
     transform: translateY(-1px);
 }
 
 .btn-primary:active {
     transform: translateY(0);
-    box-shadow: 0 3px 10px rgba(95, 143, 101, 0.28);
+    box-shadow: 0 3px 10px rgba(85, 102, 255, 0.26);
 }
 
 /* 윤곽선/보조 버튼 */

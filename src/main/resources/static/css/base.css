@@ -1,7 +1,7 @@
 /* =========================================
    base.css
    - Reset + 폰트 + 컬러 토큰 + 기본 타이포/유틸
-   화이트 베이스 + 말차 포인트
+   - 네이비 & 라일락 포인트의 통합 테마
 ========================================= */
 
 /* ---------- Font ---------- */
@@ -82,42 +82,42 @@ ol {
 /* ---------- Design Tokens ---------- */
 
 :root {
-    /* Primary (말차 그린) */
-    --fh-color-primary: #5f8f65;
-    --fh-color-primary-soft: #e6f2ea;
-    --fh-color-primary-soft-strong: #d3e6d8;
+    /* Primary (딥 네이비 + 라일락) */
+    --fh-color-primary: #5566ff;
+    --fh-color-primary-soft: #eef0ff;
+    --fh-color-primary-soft-strong: #dfe3ff;
 
-    /* Accent (살짝만 사용) */
-    --fh-color-accent: #f4a15a;
-    --fh-color-accent-soft: #fff3e5;
+    /* Accent */
+    --fh-color-accent: #ff8faf;
+    --fh-color-accent-soft: #fff0f5;
 
     /* Neutral */
-    --fh-color-bg: #f4f5f7;
+    --fh-color-bg: #f6f8fb;
     --fh-color-bg-elevated: #ffffff;
-    --fh-color-border-subtle: rgba(15, 23, 42, 0.06);
+    --fh-color-border-subtle: rgba(15, 23, 42, 0.08);
     --fh-color-border-strong: rgba(15, 23, 42, 0.16);
-    --fh-color-text-main: #111827;
-    --fh-color-text-soft: #6b7280;
-    --fh-color-text-softer: #9ca3af;
+    --fh-color-text-main: #0f172a;
+    --fh-color-text-soft: #4b5563;
+    --fh-color-text-softer: #9aa2b1;
 
     /* System */
-    --fh-color-success: #22c55e;
-    --fh-color-success-soft: #ecfdf3;
-    --fh-color-danger: #ef4444;
-    --fh-color-danger-soft: #fef2f2;
-    --fh-color-warning: #f59e0b;
-    --fh-color-warning-soft: #fffbeb;
+    --fh-color-success: #35b276;
+    --fh-color-success-soft: #e6f6ef;
+    --fh-color-danger: #ef5f5f;
+    --fh-color-danger-soft: #ffecec;
+    --fh-color-warning: #f6b648;
+    --fh-color-warning-soft: #fff5e3;
 
-    /* Shadow (조금 더 현실적인 강도) */
-    --fh-shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.06);
+    /* Shadow */
+    --fh-shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.07);
     --fh-shadow-medium: 0 18px 45px rgba(15, 23, 42, 0.12);
 
     /* Radius */
     --fh-radius-xs: 6px;
-    --fh-radius-sm: 8px;
-    --fh-radius-md: 10px;
-    --fh-radius-lg: 14px;
-    --fh-radius-xl: 18px;
+    --fh-radius-sm: 10px;
+    --fh-radius-md: 14px;
+    --fh-radius-lg: 18px;
+    --fh-radius-xl: 22px;
     --fh-radius-pill: 999px;
 
     /* Layout */
@@ -133,12 +133,12 @@ ol {
     background:
             radial-gradient(
                     circle at top left,
-                    rgba(95, 143, 101, 0.12),
+                    rgba(85, 102, 255, 0.12),
                     transparent 55%
             ),
             radial-gradient(
                     circle at bottom right,
-                    rgba(148, 210, 164, 0.16),
+                    rgba(255, 143, 175, 0.16),
                     transparent 55%
             ),
             var(--fh-color-bg);
